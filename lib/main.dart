@@ -1,14 +1,29 @@
+import 'dart:io';
+import 'package:brashapp/utils/vm.dart' if (dart.library.html) 'package:brashapp/utils/js.dart';
 import 'package:brashapp/pages/HomePage.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/date_symbol_data_local.dart';
-
+import 'package:path_provider/path_provider.dart';
 
 
 void main() {
-  initializeDateFormatting("fr_FR", null).then((_) => runApp(MyApp()));
+  // init language and then init app
+  initializeDateFormatting("de_DE", null).then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
+
+  Future openBoxes() async {
+    if (!isBrowser) {
+      var dir = await getApplicationDocumentsDirectory();
+      Hive.init(dir.path);
+    }
+    return Future.wait([
+      Hive.openBox('pages'),
+    ]);
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -26,7 +41,29 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: FutureBuilder(
+        future: openBoxes(),
+        builder: (_, snapshot){
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.error != null) {
+              print(snapshot.error);
+              return Scaffold(
+                body: Center(
+                  child: Text('Something went wrong :/'),
+                ),
+              );
+            } else {
+              return HomePage();
+            }
+          } else {
+            return Scaffold(
+              body: Center(
+                child: Text('Opening Hive...'),
+              ),
+            );
+          }
+        }
+      )
     );
   }
 }

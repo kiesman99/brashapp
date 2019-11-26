@@ -92,12 +92,12 @@ class __StreetPickerState extends State<_StreetPicker> {
 
   Future<ApiResponse> streets;
 
-  final String fixURL = "http%3A%2F%2F213.168.213.236%2Fbremereb%2Fbify%2Fstrasse.jsp%3Fstrasse%3D";
+
 
   @override
   void initState() {
     super.initState();
-    streets = StreetPickerSpiderService().getResponse(fixURL + widget.searchQuery);
+    streets = StreetPickerSpiderService().getResponse(widget.searchQuery);
   }
 
   @override

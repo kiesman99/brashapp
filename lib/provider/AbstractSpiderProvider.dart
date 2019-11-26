@@ -3,7 +3,7 @@ import 'package:brashapp/models/ErrorModel.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-abstract class AbstractSpiderService<T extends ApiResponse> {
+abstract class AbstractSpiderProvider<T extends ApiResponse> {
 
   String get spiderName;
   String get urlPrefix => "";
