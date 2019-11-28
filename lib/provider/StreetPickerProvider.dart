@@ -1,12 +1,14 @@
+import 'dart:convert';
+
 import 'package:brashapp/models/ApiResponse.dart';
+import 'package:brashapp/models/ErrorModel.dart';
+import 'package:brashapp/models/StreetModel.dart';
 import 'package:brashapp/models/StreetPickerModel.dart';
 import 'package:brashapp/provider/AbstractSpiderProvider.dart';
-import 'package:flutter/cupertino.dart';
 
-class StreetPickerProvider extends AbstractSpiderProvider with ChangeNotifier{
+class StreetPickerProvider extends AbstractSpiderProvider<StreetPickerModel> {
 
   @override
-  // TODO: implement spiderName
   String get spiderName => "streetPicker";
 
   /*
@@ -16,11 +18,24 @@ class StreetPickerProvider extends AbstractSpiderProvider with ChangeNotifier{
    */
   String urlPrefix = "http://213.168.213.236/bremereb/bify/strasse.jsp?strasse=";
 
-  Future<ApiResponse> streets;
+  @override
+  StreetPickerModel parseJson(Map<String, dynamic> json) {
+    return StreetPickerModel.fromJson(json);
+  }
+
+  String _queryParamFormatter(String query) {
+    return Uri.encodeQueryComponent(
+        Uri.encodeQueryComponent(
+            query,
+            encoding: Encoding.getByName("iso_8859-1")
+        ),
+        encoding: Encoding.getByName("iso_8859-1")
+    );
+  }
 
   @override
-  ApiResponse parseJson(Map<String, dynamic> json) {
-    return StreetPickerModel.fromJson(json);
+  Future<ApiResponse> getResponse(String searchQuery) {
+    return super.getResponse(urlPrefix + _queryParamFormatter(searchQuery));
   }
 
 }
