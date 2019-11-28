@@ -1,7 +1,6 @@
 import 'package:brashapp/models/ApiResponse.dart';
 import 'package:brashapp/models/StreetPickerModel.dart';
 import 'package:brashapp/provider/AbstractSpiderProvider.dart';
-import 'package:brashapp/service/StreetPickerSpiderService.dart';
 
 class StreetPickerProvider extends AbstractSpiderProvider{
 
@@ -14,8 +13,7 @@ class StreetPickerProvider extends AbstractSpiderProvider{
    * The other URLs will be provided by the 'href' item in the response
    * JSON
    */
-  @override
-  String get urlPrefix => "http%3A%2F%2F213.168.213.236%2Fbremereb%2Fbify%2Fstrasse.jsp%3Fstrasse%3D";
+  String urlPrefix = "http://213.168.213.236/bremereb/bify/strasse.jsp?strasse=";
 
   Future<ApiResponse> streets;
 
