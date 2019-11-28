@@ -1,8 +1,9 @@
 import 'package:brashapp/models/ApiResponse.dart';
 import 'package:brashapp/models/StreetPickerModel.dart';
 import 'package:brashapp/provider/AbstractSpiderProvider.dart';
+import 'package:flutter/cupertino.dart';
 
-class StreetPickerProvider extends AbstractSpiderProvider{
+class StreetPickerProvider extends AbstractSpiderProvider with ChangeNotifier{
 
   @override
   // TODO: implement spiderName
