@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:brashapp/provider/HouseNumberProvider.dart';
+import 'package:brashapp/provider/StreetPickerProvider.dart';
 import 'package:brashapp/utils/vm.dart' if (dart.library.html) 'package:brashapp/utils/js.dart';
 import 'package:brashapp/pages/HomePage.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(builder: (_) => HouseNumberProvider()),
+        ChangeNotifierProvider(builder: (_) => StreetPickerProvider())
       ],
       child: MaterialApp(
           title: 'Flutter Demo',
