@@ -6,12 +6,12 @@ import 'dart:convert';
 abstract class AbstractSpiderService<T extends ApiResponse> {
 
   String get spiderName;
-  String get urlPrefix => "";
-  String get baseURL => 'https://brash.tandashi.de/crawl.json?spider_name=$spiderName&url=$urlPrefix';
+  String get baseURL => 'https://brash.tandashi.de/crawl.json?spider_name=$spiderName&url=';
 
 
   Future<ApiResponse> getResponse(String searchQuery) async {
     final url = baseURL + searchQuery;
+    print("Aufgerufene URL:\t$url");
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
