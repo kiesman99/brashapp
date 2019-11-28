@@ -1,15 +1,23 @@
 import 'package:brashapp/models/ApiResponse.dart';
 import 'package:brashapp/models/ErrorModel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-abstract class AbstractSpiderProvider<T extends ApiResponse> {
+abstract class AbstractSpiderProvider<T extends ApiResponse> with ChangeNotifier{
+
+  ApiResponse response;
 
   String get spiderName;
   String get baseURL => 'https://brash.tandashi.de/crawl.json?spider_name=$spiderName&url=';
 
+  void fetch(String searchQuery) async {
+    response = await _getResponse(searchQuery);
+    notifyListeners();
+  }
 
-  Future<ApiResponse> getResponse(String searchQuery) async {
+
+  Future<ApiResponse> _getResponse(String searchQuery) async {
     final url = baseURL + searchQuery;
     final response = await http.get(url);
 
