@@ -30,15 +30,15 @@ class _HouseNumberPickerState extends State<HouseNumberPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Hinzufügen"),
-      ),
-      body: ApiHandlerWidget(
-        future: houseNumbers,
-        childBuilder: (response){
-          HouseNumberPickerModel model = response as HouseNumberPickerModel;
-          return ListView.builder(
+    return ApiHandlerWidget(
+      future: houseNumbers,
+      childBuilder: (response){
+        HouseNumberPickerModel model = response as HouseNumberPickerModel;
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(model.street),
+          ),
+          body: ListView.builder(
             itemCount: model.houseNumbers.length,
             itemBuilder: (_, index){
               return ListTile(
@@ -51,9 +51,9 @@ class _HouseNumberPickerState extends State<HouseNumberPicker> {
                   title: Text(model.houseNumbers[index].number.toString())
               );
             },
-          );
-        },
-      )
+          ),
+        );
+      },
     );
   }
 }
