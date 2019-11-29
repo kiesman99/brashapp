@@ -3,8 +3,13 @@ import 'package:brashapp/models/ErrorModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:logger/logger.dart';
 
 abstract class AbstractSpiderProvider<T extends ApiResponse> with ChangeNotifier{
+
+  var logger = Logger(
+    printer: PrettyPrinter(),
+  );
 
   ApiResponse response;
 
@@ -12,12 +17,13 @@ abstract class AbstractSpiderProvider<T extends ApiResponse> with ChangeNotifier
   String get baseURL => 'https://brash.tandashi.de/crawl.json?spider_name=$spiderName&url=';
 
   void fetch(String searchQuery) async {
-    response = await _getResponse(searchQuery);
+    logger.i("The url $baseURL$searchQuery was invoked by ${T.toString()}");
+    response = await getResponse(searchQuery);
     notifyListeners();
   }
 
 
-  Future<ApiResponse> _getResponse(String searchQuery) async {
+  Future<ApiResponse> getResponse(String searchQuery) async {
     final url = baseURL + searchQuery;
     final response = await http.get(url);
 
