@@ -3,11 +3,8 @@ import 'package:brashapp/models/ErrorModel.dart';
 import 'package:brashapp/models/HouseNumberPickerModel.dart';
 import 'package:brashapp/pages/FinalSelectionPage.dart';
 import 'package:brashapp/provider/HouseNumberProvider.dart';
-import 'package:brashapp/service/HouseNumberPickerSpiderService.dart';
 import 'package:brashapp/widgets/ApiHandlerWidget.dart';
 import 'package:flutter/material.dart';
-
-import 'package:brashapp/widgets/OverviewWidget.dart';
 import 'package:provider/provider.dart';
 
 class HouseNumberPicker extends StatefulWidget {
