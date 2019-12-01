@@ -1,6 +1,5 @@
 import 'package:brashapp/models/ApiResponse.dart';
 import 'package:brashapp/models/TrashEntriesModel.dart';
-import 'package:brashapp/models/TrashInformationModel.dart';
 import 'package:brashapp/pages/HomePage.dart';
 import 'package:brashapp/service/TrashSpiderService.dart';
 import 'package:brashapp/widgets/ApiHandlerWidget.dart';
@@ -24,7 +23,6 @@ class _FinalSelectionPageState extends State<FinalSelectionPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     trashInformation = TrashSpiderService().getResponse(widget.searchQuery);
   }
