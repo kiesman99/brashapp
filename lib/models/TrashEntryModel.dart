@@ -1,13 +1,18 @@
-import 'package:intl/intl.dart';
+import 'package:hive/hive.dart';
 
-class TrashEntryModel {
+@HiveType()
+class TrashEntry {
+  
+  @HiveField(0)
   String message;
+
+  @HiveField(1)
   String date;
 
-  TrashEntryModel({this.message, this.date});
+  TrashEntry({this.message, this.date});
 
-  factory TrashEntryModel.fromJson(Map<String, dynamic> json){
-    return TrashEntryModel(
+  factory TrashEntry.fromJson(Map<String, dynamic> json){
+    return TrashEntry(
       message: json["msg"],
       date: json["date"]
     );

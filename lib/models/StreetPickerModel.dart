@@ -1,21 +1,28 @@
 import 'package:brashapp/models/ApiResponse.dart';
 import 'package:brashapp/models/StreetModel.dart';
 
-class StreetPickerModel extends ApiResponse {
-  List<StreetModel> streets;
-  
-  StreetPickerModel({this.streets});
+/// This is the collection of [Street] models based on the
+/// requested inital search
+class Streets extends ApiResponse {
 
-  factory StreetPickerModel.fromJson(Map<String, dynamic> json){
-    List<StreetModel> streets = new List();
-    json["data"].forEach((el) => streets.add(StreetModel.fromJson(el)));
-    return StreetPickerModel(
+  /// The list of streets corresponding to
+  /// the requested search
+  List<Street> streets;
+  
+  Streets({this.streets});
+
+  /// A custom factory that will generate a [Streets] model from
+  /// the retrieved json
+  factory Streets.fromJson(Map<String, dynamic> json){
+    List<Street> streets = new List();
+    json["data"].forEach((el) => streets.add(Street.fromJson(el)));
+    return Streets(
       streets: streets
     );
   }
 
-  StreetPickerModel copyWith({List<StreetModel> streets}){
-    return StreetPickerModel(
+  Streets copyWith({List<Street> streets}){
+    return Streets(
       streets: streets ?? this.streets
     );
   }

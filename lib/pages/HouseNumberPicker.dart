@@ -38,8 +38,8 @@ class _HouseNumberPickerState extends State<HouseNumberPicker> {
               child: Text(model.message),
             ),
           );
-        }else if(provider.response is HouseNumberPickerModel){
-          HouseNumberPickerModel model = provider.response as HouseNumberPickerModel;
+        }else if(provider.response is HouseNumbers){
+          HouseNumbers model = provider.response as HouseNumbers;
           return Scaffold(
             appBar: AppBar(
               title: Text(model.street),
@@ -72,7 +72,7 @@ class _HouseNumberPickerState extends State<HouseNumberPicker> {
     return ApiHandlerWidget(
       future: houseNumbers,
       childBuilder: (response){
-        HouseNumberPickerModel model = response as HouseNumberPickerModel;
+        HouseNumbers model = response as HouseNumbers;
         return Scaffold(
           appBar: AppBar(
             title: Text(model.street),
