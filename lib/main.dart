@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:brashapp/provider/HomePageProvider.dart';
 import 'package:brashapp/provider/HouseNumberProvider.dart';
 import 'package:brashapp/provider/StreetPickerProvider.dart';
 import 'package:brashapp/provider/TrashEntriesProvider.dart';
@@ -33,9 +34,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(builder: (_) => HomePageProvider()),
         ChangeNotifierProvider(builder: (_) => HouseNumberProvider()),
         ChangeNotifierProvider(builder: (_) => StreetPickerProvider()),
-        ChangeNotifierProvider(builder: (_) => TrashEntriesProvider())
+        ChangeNotifierProvider(builder: (_) => TrashEntriesProvider()),
       ],
       child: MaterialApp(
           title: 'Flutter Demo',
