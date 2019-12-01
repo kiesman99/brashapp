@@ -7,7 +7,6 @@ class TrashSpiderService extends AbstractSpiderService<TrashEntriesModel>{
 
   @override
   TrashEntriesModel parseJson(Map<String, dynamic> json) {
-    // TODO: implement parseJson
     return TrashEntriesModel.fromJson(json);
   }
 
