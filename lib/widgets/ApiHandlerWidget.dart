@@ -38,7 +38,6 @@ class ApiHandlerWidget extends StatelessWidget {
 
         }
 
-        // TODO: move into own widget
         return Center(
           child: CircularProgressIndicator(),
         );
