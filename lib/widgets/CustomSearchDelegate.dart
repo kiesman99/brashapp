@@ -4,6 +4,7 @@ import 'package:brashapp/models/StreetPickerModel.dart';
 import 'package:brashapp/pages/HouseNumberPicker.dart';
 import 'package:brashapp/provider/StreetPickerProvider.dart';
 import 'package:brashapp/service/StreetPickerSpiderService.dart';
+import 'package:brashapp/utils/Debouncer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -79,8 +80,11 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    var provider = Provider.of<StreetPickerProvider>(context);
+
     // if search term is empty
     if(query.isEmpty){
+      provider.emptyPreviouslyFetched();
       return ListView(
         children: <Widget>[
           ListTile(
@@ -90,42 +94,39 @@ class CustomSearchDelegate extends SearchDelegate {
       );
     }
 
-    Provider.of<StreetPickerProvider>(context).fetch(query);
+    Debouncer(milliseconds: 1000).run(() => provider.fetch(query));
 
-    return Consumer<StreetPickerProvider>(
-      builder: (context, provider, _){
-        if(provider.response is ErrorModel){
-          return ListView(
-            children: <Widget>[
-              ListTile(
-                title: Text((provider.response as ErrorModel).message),
-              )
-            ],
-          );
-        }else if(provider.response is StreetPickerModel){
-          StreetPickerModel model = provider.response;
-          return ListView.builder(
-            itemCount: model.streets.length,
-            itemBuilder: (context, index){
-              return ListTile(
-                title: Text(model.streets.elementAt(index).name),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HouseNumberPicker(model.streets.elementAt(index).href)
-                      )
-                  );
-                },
+    if(provider.response is ErrorModel){
+      return ListView(
+        children: <Widget>[
+          ListTile(
+            title: Text((provider.response as ErrorModel).message),
+          )
+        ],
+      );
+    }else if(provider.response is StreetPickerModel){
+      StreetPickerModel model = provider.response;
+      return ListView.builder(
+        itemCount: model.streets.length,
+        itemBuilder: (context, index){
+          return ListTile(
+            title: Text(model.streets.elementAt(index).name),
+            onTap: () {
+              query = model.streets.elementAt(index).name;
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => HouseNumberPicker(model.streets.elementAt(index).href)
+                  )
               );
             },
           );
-        }
+        },
+      );
+    }
 
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      },
+    return Center(
+      child: CircularProgressIndicator(),
     );
   }
 }
