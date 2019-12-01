@@ -6,7 +6,7 @@ import 'package:brashapp/models/StreetModel.dart';
 import 'package:brashapp/models/StreetPickerModel.dart';
 import 'package:brashapp/provider/AbstractSpiderProvider.dart';
 
-class StreetPickerProvider extends AbstractSpiderProvider<StreetPickerModel> {
+class StreetPickerProvider extends AbstractSpiderProvider<Streets> {
 
   @override
   String get spiderName => "streetPicker";
@@ -19,8 +19,8 @@ class StreetPickerProvider extends AbstractSpiderProvider<StreetPickerModel> {
   String urlPrefix = "http://213.168.213.236/bremereb/bify/strasse.jsp?strasse=";
 
   @override
-  StreetPickerModel parseJson(Map<String, dynamic> json) {
-    return StreetPickerModel.fromJson(json);
+  Streets parseJson(Map<String, dynamic> json) {
+    return Streets.fromJson(json);
   }
 
   String _queryParamFormatter(String query) {

@@ -2,8 +2,6 @@ import 'package:brashapp/models/ApiResponse.dart';
 import 'package:brashapp/models/ErrorModel.dart';
 import 'package:brashapp/models/TrashEntriesModel.dart';
 import 'package:brashapp/provider/TrashEntriesProvider.dart';
-import 'package:brashapp/service/TrashSpiderService.dart';
-import 'package:brashapp/widgets/ApiHandlerWidget.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:core';
@@ -32,7 +30,6 @@ class _OverviewWidgetState extends State<OverviewWidget> {
     super.initState();
     if(widget.searchQuery != "")
       Provider.of<TrashEntriesProvider>(context).fetch(widget.searchQuery);
-      //trashInformation = TrashSpiderService().getResponse(widget.searchQuery);
   }
 
   @override
@@ -88,7 +85,7 @@ class _MainElement extends StatelessWidget {
                     Text(model.currentStreet,
                         style: Theme.of(context).textTheme.headline),
                     SizedBox(height: 10.0),
-                    Text(model.abholtag),
+                    Text(model.pickUpDay),
                     SizedBox(height: 5.0),
                     Divider(),
                     SizedBox(height: 20.0),

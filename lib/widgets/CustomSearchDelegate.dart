@@ -51,8 +51,8 @@ class CustomSearchDelegate extends SearchDelegate {
               )
             ],
           );
-        }else if(provider.response is StreetPickerModel){
-          StreetPickerModel model = provider.response;
+        }else if(provider.response is Streets){
+          Streets model = provider.response;
           return ListView.builder(
             itemCount: model.streets.length,
             itemBuilder: (context, index){
@@ -104,8 +104,8 @@ class CustomSearchDelegate extends SearchDelegate {
           )
         ],
       );
-    }else if(provider.response is StreetPickerModel){
-      StreetPickerModel model = provider.response;
+    }else if(provider.response is Streets){
+      Streets model = provider.response;
       return ListView.builder(
         itemCount: model.streets.length,
         itemBuilder: (context, index){

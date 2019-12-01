@@ -109,7 +109,7 @@ class __StreetPickerState extends State<_StreetPicker> {
       body: ApiHandlerWidget(
         future: streets,
         childBuilder: (response){
-          StreetPickerModel model = response as StreetPickerModel;
+          Streets model = response as Streets;
           return ListView.builder(
             itemCount: model.streets.length,
             itemBuilder: (_, index){

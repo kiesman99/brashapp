@@ -9,7 +9,7 @@ class HouseNumberProvider extends AbstractSpiderProvider {
 
   @override
   ApiResponse parseJson(Map<String, dynamic> json) {
-    return HouseNumberPickerModel.fromJson(json);
+    return HouseNumbers.fromJson(json);
   }
 
 }

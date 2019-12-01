@@ -1,13 +1,13 @@
 import 'package:brashapp/models/HouseNumberPickerModel.dart';
 import 'package:brashapp/service/AbstractSpiderService.dart';
 
-class HouseNumberPickerSpiderService extends AbstractSpiderService<HouseNumberPickerModel>{
+class HouseNumberPickerSpiderService extends AbstractSpiderService<HouseNumbers>{
 
   final String spiderName = "houseNumberPicker";
 
   @override
-  HouseNumberPickerModel parseJson(Map<String, dynamic> json) {
-    return HouseNumberPickerModel.fromJson(json);
+  HouseNumbers parseJson(Map<String, dynamic> json) {
+    return HouseNumbers.fromJson(json);
   }
 
 }

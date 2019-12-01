@@ -1,8 +1,10 @@
+import 'package:brashapp/provider/HomePageProvider.dart';
 import 'package:brashapp/widgets/CustomSearchDelegate.dart';
 import 'package:flutter/material.dart';
 import 'package:brashapp/widgets/OverviewWidget.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 
 import 'HouseNumberPicker.dart';
 
@@ -15,12 +17,14 @@ class _HomePageState extends State<HomePage> {
 
   PageController _pageController;
 
+  HomePageProvider get provider => Provider.of<HomePageProvider>(context);
+
 
   void popUpMenuHandler(int index){
     switch(index){
       case 1:
         // Löschen
-        Hive.box("pages").deleteAt(_pageController.page.floor());
+        provider.removeFromHomePage(_pageController.page.floor());
         break;
       case 2:
         // Kalender
@@ -28,12 +32,10 @@ class _HomePageState extends State<HomePage> {
       default:
         break;
     }
-
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _pageController = new PageController();
   }
@@ -94,8 +96,6 @@ class _HomePageState extends State<HomePage> {
         ),
       );
     }
-
-
 
     return PageView.builder(
       controller: _pageController,
