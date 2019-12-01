@@ -1,5 +1,7 @@
 import 'package:brashapp/models/ApiResponse.dart';
+import 'package:brashapp/models/ErrorModel.dart';
 import 'package:brashapp/models/TrashEntriesModel.dart';
+import 'package:brashapp/provider/TrashEntriesProvider.dart';
 import 'package:brashapp/service/TrashSpiderService.dart';
 import 'package:brashapp/widgets/ApiHandlerWidget.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class OverviewWidget extends StatefulWidget {
   final searchQuery;
@@ -28,17 +31,32 @@ class _OverviewWidgetState extends State<OverviewWidget> {
     scrollController = new ScrollController();
     super.initState();
     if(widget.searchQuery != "")
-      trashInformation = TrashSpiderService().getResponse(widget.searchQuery);
+      Provider.of<TrashEntriesProvider>(context).fetch(widget.searchQuery);
+      //trashInformation = TrashSpiderService().getResponse(widget.searchQuery);
   }
 
   @override
   Widget build(BuildContext context) {
     if(widget.searchQuery != ""){
-      return ApiHandlerWidget(
-        future: trashInformation,
-        childBuilder: (response) {
-          TrashEntriesModel model = response as TrashEntriesModel;
-          return _MainElement(model, scrollController);
+
+      return Consumer<TrashEntriesProvider>(
+        builder: (context, provider, child){
+          if(provider.response is ErrorModel){
+            return Scaffold(
+              body: Center(
+                child: Text("Ein Fehler ist aufgetreten"),
+              )
+            );
+          } else if(provider.response is TrashEntriesModel){
+            TrashEntriesModel model = provider.response;
+            return _MainElement(model, scrollController);
+          }
+
+          return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              )
+          );
         },
       );
     }
