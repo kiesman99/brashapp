@@ -47,6 +47,8 @@ abstract class AbstractSpiderProvider<T extends ApiResponse> with ChangeNotifier
     }
   }
 
+  void emptyPreviouslyFetched() => response = null;
+
   /// This function will define how the json elements
   /// will be parsed into the actual element [T]
   ///
