@@ -5,11 +5,11 @@ import 'package:brashapp/provider/AbstractSpiderProvider.dart';
 class HouseNumberProvider extends AbstractSpiderProvider {
 
   @override
+  String get spiderName => "houseNumberPicker";
+
+  @override
   ApiResponse parseJson(Map<String, dynamic> json) {
     return HouseNumberPickerModel.fromJson(json);
   }
-
-  @override
-  String get spiderName => "houseNumberPicker";
 
 }
