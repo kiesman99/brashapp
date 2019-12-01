@@ -533,3 +533,12 @@ healthchecksdb
 MigrationBackup/
 
 # End of https://www.gitignore.io/api/flutter,visualstudio,androidstudio
+.flutter-plugins-dependencies
+
+.idea/codeStyles/Project.xml
+
+.idea/runConfigurations/main_dart.xml
+
+.metadata
+
+pubspec.lock
