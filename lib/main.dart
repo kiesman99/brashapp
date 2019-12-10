@@ -1,4 +1,10 @@
 import 'dart:io';
+import 'package:brashapp/api/client/BrashApiClient.dart';
+import 'package:brashapp/api/repositories/BrashRepository.dart';
+import 'package:brashapp/bloc/address_information_bloc/AddressInformationBloc.dart';
+import 'package:brashapp/bloc/house_number_picker_bloc/house_number_picker_bloc.dart';
+import 'package:brashapp/bloc/street_picker_bloc/street_picker_bloc.dart';
+import 'package:brashapp/pages/HouseNumberPicker.dart';
 import 'package:brashapp/provider/HomePageProvider.dart';
 import 'package:brashapp/provider/HouseNumberProvider.dart';
 import 'package:brashapp/provider/StreetPickerProvider.dart';
@@ -6,18 +12,30 @@ import 'package:brashapp/provider/TrashEntriesProvider.dart';
 import 'package:brashapp/utils/vm.dart' if (dart.library.html) 'package:brashapp/utils/js.dart';
 import 'package:brashapp/pages/HomePage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-
+import 'package:http/http.dart' as http;
 
 void main() {
+
+  final BrashRepository brashRepository = BrashRepository(
+    apiClient: BrashApiClient(
+      httpClient: http.Client()
+    )
+  );
+
   // init language and then init app
-  initializeDateFormatting('de_DE', null).then((dynamic _) => runApp(MyApp()));
+  initializeDateFormatting('de_DE', null).then((dynamic _) => runApp(MyApp(brashRepository: brashRepository)));
 }
 
 class MyApp extends StatelessWidget {
+
+  MyApp({this.brashRepository});
+
+  BrashRepository brashRepository;
 
   Future<void> openBoxes() async {
     if (!isBrowser) {
@@ -29,53 +47,26 @@ class MyApp extends StatelessWidget {
     ]);
   }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: <SingleChildCloneableWidget>[
-        ChangeNotifierProvider<HomePageProvider>(builder: (_) => HomePageProvider()),
-        ChangeNotifierProvider<HouseNumberProvider>(builder: (_) => HouseNumberProvider()),
-        ChangeNotifierProvider<StreetPickerProvider>(builder: (_) => StreetPickerProvider()),
-        ChangeNotifierProvider<TrashEntriesProvider>(builder: (_) => TrashEntriesProvider()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<StreetPickerBloc>(
+          create: (BuildContext _) => StreetPickerBloc(brashRepository),
+        ),
+        BlocProvider<HouseNumberPickerBloc>(
+          create: (BuildContext _) => HouseNumberPickerBloc(brashRepository)
+        ),
+        BlocProvider<AddressInformationBloc>(
+          create: (BuildContext _) => AddressInformationBloc(brashRepository)
+        )
       ],
       child: MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Brash',
           theme: ThemeData(
-            // This is the theme of your application.
-            //
-            // Try running your application with "flutter run". You'll see the
-            // application has a blue toolbar. Then, without quitting the app, try
-            // changing the primarySwatch below to Colors.green and then invoke
-            // "hot reload" (press "r" in the console where you ran "flutter run",
-            // or simply save your changes to "hot reload" in a Flutter IDE).
-            // Notice that the counter didn't reset back to zero; the application
-            // is not restarted.
             primarySwatch: Colors.blue,
           ),
-          home: FutureBuilder<void>(
-              future: openBoxes(),
-              builder: (_, AsyncSnapshot<dynamic> snapshot){
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.error != null) {
-                    print(snapshot.error);
-                    return const Scaffold(
-                      body: Center(
-                        child: Text('Something went wrong :/'),
-                      ),
-                    );
-                  } else {
-                    return HomePage();
-                  }
-                } else {
-                  return const Scaffold(
-                    body: Center(
-                      child: Text('Opening Hive...'),
-                    ),
-                  );
-                }
-              }
-          )
+          home: HomePage()
       ),
     );
   }
