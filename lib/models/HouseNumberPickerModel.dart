@@ -19,6 +19,11 @@ class HouseNumbers extends ApiResponse{
     this.houseNumbers = houseNumbers;
   }
 
+  HouseNumbers.empty() {
+    street = null;
+    houseNumbers = null;
+  }
+
   /// The name of the street that the house numbers
   /// belong to
   String street;
