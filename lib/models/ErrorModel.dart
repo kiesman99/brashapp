@@ -5,9 +5,8 @@ import 'package:brashapp/models/ApiResponse.dart';
 /// goes wrong
 class ErrorModel extends ApiResponse {
 
+  ErrorModel({this.message});
+  
   /// The error message that will be delivered by the response
   String message;
-
-  ErrorModel({this.message});
-
 }

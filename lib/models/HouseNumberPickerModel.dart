@@ -5,6 +5,19 @@ import 'package:brashapp/models/HouseNumberModel.dart';
 /// of [HousenNumber] and will provide all
 /// HouseNumbers to a given Street
 class HouseNumbers extends ApiResponse{
+  
+  HouseNumbers({this.street, this.houseNumbers});
+
+  /// custom constructor that will be used to generate
+  /// a [HouseNumbers] model from json data that
+  /// will be retrieved by the api
+  HouseNumbers.fromJson(Map<String, dynamic> json){
+    final List<HouseNumber> houseNumbers = <HouseNumber>[];
+
+    json['data'].forEach((Map<String, dynamic> json) => houseNumbers.add(HouseNumber.fromJson(json)));
+    street = json['currentStreet'];
+    this.houseNumbers = houseNumbers;
+  }
 
   /// The name of the street that the house numbers
   /// belong to
@@ -12,18 +25,4 @@ class HouseNumbers extends ApiResponse{
 
   /// The house numbers of the street [name]
   List<HouseNumber> houseNumbers;
-
-  HouseNumbers({this.street, this.houseNumbers});
-
-  /// custom constructor that will be used to generate
-  /// a [HouseNumbers] model from json data that
-  /// will be retrieved by the api
-  HouseNumbers.fromJson(Map<String, dynamic> json){
-    List<HouseNumber> houseNumbers = List();
-
-    json["data"].forEach((el) => houseNumbers.add(HouseNumber.fromJson(el)));
-    this.street = json["currentStreet"];
-    this.houseNumbers = houseNumbers;
-  }
-
 }

@@ -5,12 +5,12 @@ import 'package:brashapp/models/StreetPickerModel.dart';
 import 'package:flutter/material.dart';
 
 class BrashRepository {
-
-  final BrashApiClient apiClient;
-
+  
   BrashRepository({
     @required this.apiClient
   }) : assert(apiClient != null);
+
+  final BrashApiClient apiClient;
 
   /// This function will get all available streets 
   /// of the provided [searchQuery]

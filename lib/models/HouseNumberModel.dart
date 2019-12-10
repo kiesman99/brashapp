@@ -3,6 +3,17 @@
 /// all HouseNumbers of a street will be
 /// stored in [HouseNumbers]
 class HouseNumber{
+  
+  HouseNumber({this.number, this.href});
+
+  /// A custom constructor to generate a [HouseNumber] model
+  /// from the responses json
+  factory HouseNumber.fromJson(Map<String, dynamic> json){
+    return HouseNumber(
+      number: json['house_number'],
+      href: json['href']
+    );
+  }
 
   /// The street number of the selected house
   String number;
@@ -10,15 +21,4 @@ class HouseNumber{
   /// The url that has to be injected into the request to the
   /// api to get information about the selected street + housnumber
   String href;
-
-  HouseNumber({this.number, this.href});
-
-  /// A custom constructor to generate a [HouseNumber] model
-  /// from the responses json
-  factory HouseNumber.fromJson(Map<String, dynamic> json){
-    return HouseNumber(
-      number: json["house_number"],
-      href: json["href"]
-    );
-  }
 }

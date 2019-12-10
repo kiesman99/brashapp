@@ -1,1 +1,1 @@
-const isBrowser = false;
+const bool isBrowser = false;

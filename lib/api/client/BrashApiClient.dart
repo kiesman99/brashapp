@@ -7,13 +7,13 @@ import 'package:http/http.dart' as http;
 
 // Look here: https://bloclibrary.dev/#/flutterweathertutorial
 class BrashApiClient {
-
-  static String baseURL(String spiderName) => 'https://brash.tandashi.de/crawl.json?spider_name=$spiderName&url=';
-  final http.Client httpClient;
-
+  
   BrashApiClient({
     @required this.httpClient
   }) : assert(httpClient != null);
+
+  String _baseURL(String spiderName) => 'https://brash.tandashi.de/crawl.json?spider_name=$spiderName&url=';
+  final http.Client httpClient;
 
   /// This function will format the search query to the 
   /// format, the api endpoint will accept
@@ -21,18 +21,18 @@ class BrashApiClient {
     return Uri.encodeQueryComponent(
         Uri.encodeQueryComponent(
             query,
-            encoding: Encoding.getByName("iso_8859-1")
+            encoding: Encoding.getByName('iso_8859-1')
         ),
-        encoding: Encoding.getByName("iso_8859-1")
+        encoding: Encoding.getByName('iso_8859-1')
     );
   }
 
   void _checkResponseForError(Map<String, dynamic> json, String message) {
-    if(json["errors"] != null || json["status"] == "error"){
-      throw Exception("Ein schwerwiegender Fehler ist aufgetreten.");
+    if(json['errors'] != null || json['status'] == 'error'){
+      throw Exception('Ein schwerwiegender Fehler ist aufgetreten.');
     }
 
-    if(json["items"][0]["error"] != null) {
+    if(json['items'][0]['error'] != null) {
       throw Exception(message);
     }
   }
@@ -41,19 +41,19 @@ class BrashApiClient {
   Future<Streets> getStreets(String searchQuery) async {
     assert(searchQuery.isNotEmpty);
 
-    final String urlPrefix = "http://213.168.213.236/bremereb/bify/strasse.jsp?strasse=";
-    final url = "${baseURL("streetPicker")}$urlPrefix${_queryParamFormatter(searchQuery)}";
+    const String urlPrefix = 'http://213.168.213.236/bremereb/bify/strasse.jsp?strasse=';
+    final String url = "${_baseURL("streetPicker")}$urlPrefix${_queryParamFormatter(searchQuery)}";
 
-    final response = await this.httpClient.get(url);
+    final http.Response response = await httpClient.get(url);
 
     if(response.statusCode != 200){
       throw Exception("The Website couldn't be reached");
     }
 
     Map<String, dynamic> json = jsonDecode(response.body);
-    _checkResponseForError(json, "Die Straße wurde nicht gefunden");
+    _checkResponseForError(json, 'Die Straße wurde nicht gefunden');
     
-    return Streets.fromJson(json["items"][0]);
+    return Streets.fromJson(json['items'][0]);
   }
 
   /// This function will provide all available [HouseNumbers]
@@ -61,16 +61,16 @@ class BrashApiClient {
   Future<HouseNumbers> getHouseNumbers(String streetUrl) async {
     assert(streetUrl.isNotEmpty);
 
-    final String url = '${baseURL("houseNumberPicker")}$streetUrl';
-    final response = await this.httpClient.get(url);
+    final String url = '${_baseURL("houseNumberPicker")}$streetUrl';
+    final http.Response response = await httpClient.get(url);
 
     if(response.statusCode != 200)
       throw Exception("The Website couldn't be reached");
 
-    Map<String, dynamic> json = jsonDecode(response.body);
-    _checkResponseForError(json, "Die Straße wurde nicht gefunden");
+    final Map<String, dynamic> json = jsonDecode(response.body);
+    _checkResponseForError(json, 'Die Straße wurde nicht gefunden');
     
-    return HouseNumbers.fromJson(json["items"][0]);
+    return HouseNumbers.fromJson(json['items'][0]);
   }
 
   /// This function will provide all [AddressInformation]
@@ -78,16 +78,16 @@ class BrashApiClient {
   Future<AddressInformation> getAddressInformation(String addressUrl) async {
     assert(addressUrl.isNotEmpty);
 
-    final String url = '${baseURL("trashEntries")}$addressUrl';
-    final response = await this.httpClient.get(url);
+    final String url = '${_baseURL("trashEntries")}$addressUrl';
+    final http.Response response = await httpClient.get(url);
 
     if(response.statusCode != 200)
       throw Exception("The Website couldn't be reached");
 
-    Map<String, dynamic> json = jsonDecode(response.body);
-    _checkResponseForError(json, "Die Straße wurde nicht gefunden");
+    final Map<String, dynamic> json = jsonDecode(response.body);
+    _checkResponseForError(json, 'Die Straße wurde nicht gefunden');
     
-    return AddressInformation.fromJson(json["items"][0]);
+    return AddressInformation.fromJson(json['items'][0]);
   }
 
   
