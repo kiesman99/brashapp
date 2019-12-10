@@ -7,9 +7,9 @@ class AddressInformationEvent {}
 
 /// This Event will start fetching the information
 /// from the provided information
-class Fetch extends AddressInformationEvent {
+class AddressInformationFetch extends AddressInformationEvent {
 
-  Fetch({this.url});
+  AddressInformationFetch({this.url});
 
   String url;
 }
