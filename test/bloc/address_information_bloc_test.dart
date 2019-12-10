@@ -29,7 +29,9 @@ void main() {
 
     blocTest<AddressInformationBloc, AddressInformationEvent, AddressInformationState>('Test Fetch Event',
       build: () => addrInfoBloc,
-      act: (AddressInformationBloc bloc) async => bloc.add(AddressInformationFetch(url: 'http://213.168.213.236/bremereb/bify/bify.jsp?strasse=Emanuelstra%25DFe%26hausnummer=15')),
+      act: (AddressInformationBloc bloc) async => bloc.add(
+        AddressInformationFetch(url: 'http://213.168.213.236/bremereb/bify/bify.jsp?strasse=Emanuelstra%25DFe%26hausnummer=15')
+        ),
       expect: <dynamic>[
         isA<AddressInformationFetchInProgress>(),
         isA<AddressInformationFetchInProgress>(),
