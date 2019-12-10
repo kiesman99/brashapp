@@ -9,8 +9,7 @@ class AddressInformationEvent {}
 /// from the provided information
 class Fetch extends AddressInformationEvent {
 
-  String url;
-
   Fetch({this.url});
 
+  String url;
 }
