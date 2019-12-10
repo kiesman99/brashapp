@@ -14,18 +14,18 @@ import 'package:provider/provider.dart';
 
 void main() {
   // init language and then init app
-  initializeDateFormatting("de_DE", null).then((_) => runApp(MyApp()));
+  initializeDateFormatting('de_DE', null).then((dynamic _) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
 
-  Future openBoxes() async {
+  Future<void> openBoxes() async {
     if (!isBrowser) {
-      var dir = await getApplicationDocumentsDirectory();
+      final Directory dir = await getApplicationDocumentsDirectory();
       Hive.init(dir.path);
     }
-    return Future.wait([
-      Hive.openBox('pages'),
+    return Future.wait(<Future<Box<dynamic>>>[
+      Hive.openBox<dynamic>('pages'),
     ]);
   }
 
@@ -33,11 +33,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(builder: (_) => HomePageProvider()),
-        ChangeNotifierProvider(builder: (_) => HouseNumberProvider()),
-        ChangeNotifierProvider(builder: (_) => StreetPickerProvider()),
-        ChangeNotifierProvider(builder: (_) => TrashEntriesProvider()),
+      providers: <SingleChildCloneableWidget>[
+        ChangeNotifierProvider<HomePageProvider>(builder: (_) => HomePageProvider()),
+        ChangeNotifierProvider<HouseNumberProvider>(builder: (_) => HouseNumberProvider()),
+        ChangeNotifierProvider<StreetPickerProvider>(builder: (_) => StreetPickerProvider()),
+        ChangeNotifierProvider<TrashEntriesProvider>(builder: (_) => TrashEntriesProvider()),
       ],
       child: MaterialApp(
           title: 'Flutter Demo',
@@ -53,13 +53,13 @@ class MyApp extends StatelessWidget {
             // is not restarted.
             primarySwatch: Colors.blue,
           ),
-          home: FutureBuilder(
+          home: FutureBuilder<void>(
               future: openBoxes(),
-              builder: (_, snapshot){
+              builder: (_, AsyncSnapshot<dynamic> snapshot){
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.error != null) {
                     print(snapshot.error);
-                    return Scaffold(
+                    return const Scaffold(
                       body: Center(
                         child: Text('Something went wrong :/'),
                       ),
@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
                     return HomePage();
                   }
                 } else {
-                  return Scaffold(
+                  return const Scaffold(
                     body: Center(
                       child: Text('Opening Hive...'),
                     ),
