@@ -14,27 +14,27 @@ abstract class AddressInformationState {
   AddressInformation addressInformation;
 }
 
-class Loading extends AddressInformationState{
-  Loading() 
+class AddressInformationFetchInProgress extends AddressInformationState{
+  AddressInformationFetchInProgress() 
     : super(addressInformation: AddressInformation.empty());
 }
 
-class Loaded extends AddressInformationState {
-  Loaded({@required AddressInformation addressInformation}) 
+class AddressInformationFetchSuccess extends AddressInformationState {
+  AddressInformationFetchSuccess({@required AddressInformation addressInformation}) 
     : assert(addressInformation != null),
     super(addressInformation: addressInformation);
 }
 
-class Error extends AddressInformationState {
+class AddressInformationFetchFailure extends AddressInformationState {
 
-  Error({
+  AddressInformationFetchFailure({
     @required this.errorMessage
   }) :
   assert(errorMessage.isNotEmpty),
   super(
     addressInformation: AddressInformation.empty()
   );
-  
+
   final String errorMessage;
 
 

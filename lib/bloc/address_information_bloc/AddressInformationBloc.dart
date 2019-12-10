@@ -14,17 +14,17 @@ class AddressInformationBloc extends Bloc<AddressInformationEvent, AddressInform
   final BrashRepository brashRepository;
 
   @override
-  AddressInformationState get initialState => Loading();
+  AddressInformationState get initialState => AddressInformationFetchInProgress();
 
   @override
   Stream<AddressInformationState> mapEventToState(AddressInformationEvent event) async* {
     if(event is Fetch){
-      yield Loading();
+      yield AddressInformationFetchInProgress();
       try {
         final AddressInformation information = await brashRepository.getAddressInformation(event.url);
-        yield Loaded(addressInformation: information);
+        yield AddressInformationFetchSuccess(addressInformation: information);
       }catch(e) {
-        yield Error(errorMessage: e.toString());
+        yield AddressInformationFetchFailure(errorMessage: e.toString());
       }
     }
   }
