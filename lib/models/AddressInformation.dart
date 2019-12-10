@@ -16,7 +16,7 @@ class AddressInformation extends ApiResponse{
 
   factory AddressInformation.fromJson(Map<String, dynamic> json){
     final List<TrashEntry> entries = <TrashEntry>[];
-    json['data']['data'].forEach((Map <String, dynamic> json) => entries.add(TrashEntry.fromJson(json)));
+    json['data']['data'].forEach((dynamic json) => entries.add(TrashEntry.fromJson(json)));
 
     return AddressInformation(
       currentStreet: json['currentStreet'] ?? '',

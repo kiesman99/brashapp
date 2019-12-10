@@ -11,7 +11,7 @@ class Streets extends ApiResponse {
   /// the retrieved json
   factory Streets.fromJson(Map<String, dynamic> json){
     final List<Street> streets = <Street>[];
-    json['data'].forEach((Map<String, dynamic> json) => streets.add(Street.fromJson(json)));
+    json['data'].forEach((dynamic json) => streets.add(Street.fromJson(json)));
     return Streets(
       streets: streets
     );

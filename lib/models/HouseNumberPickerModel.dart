@@ -14,7 +14,7 @@ class HouseNumbers extends ApiResponse{
   HouseNumbers.fromJson(Map<String, dynamic> json){
     final List<HouseNumber> houseNumbers = <HouseNumber>[];
 
-    json['data'].forEach((Map<String, dynamic> json) => houseNumbers.add(HouseNumber.fromJson(json)));
+    json['data'].forEach((dynamic json) => houseNumbers.add(HouseNumber.fromJson(json)));
     street = json['currentStreet'];
     this.houseNumbers = houseNumbers;
   }
