@@ -17,6 +17,10 @@ class Streets extends ApiResponse {
     );
   }
 
+  Streets.empty(){
+    streets = <Street>[];
+  }
+
   /// The list of streets corresponding to
   /// the requested search
   List<Street> streets;
