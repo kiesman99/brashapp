@@ -6,8 +6,6 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
-import 'HouseNumberPicker.dart';
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -37,18 +35,15 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _pageController = new PageController();
+    _pageController = PageController();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    return WatchBoxBuilder(
-      box: Hive.box("pages"),
-      builder: (context, box) {
-        return Scaffold(
+    return Scaffold(
             appBar: AppBar(
-              title: Text("Brashapp"),
+              title: const Text('Brashapp'),
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.search),
@@ -63,24 +58,25 @@ class _HomePageState extends State<HomePage> {
                 PopupMenuButton<int>(
                     onSelected: popUpMenuHandler,
                     itemBuilder: (BuildContext context) => [
-                      PopupMenuItem(
-                        child: Text("Zum Kalender hinzufügen"),
+                      // TODO(kiesman): Add functionality for disabillity of items
+                      PopupMenuItem<int>(
+                        child: const Text('Zum Kalender hinzufügen'),
                         value: 2,
-                        enabled: box.values.toList().length != 0,
+                        enabled: true,
                       ),
-                      PopupMenuItem(
-                        child: Text("Löschen"),
+                      PopupMenuItem<int>(
+                        child: const Text('Löschen'),
                         value: 1,
-                        enabled: box.values.toList().length != 0,
+                        enabled: true,
                       ),
                     ]
                 )
               ],
             ),
-            body: main(box)
+            body: const Center(
+              child: Text('Hier ist noch nicht viel'),
+            )
         );
-      },
-    );
   }
 
   Widget main(Box box){
