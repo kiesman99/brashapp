@@ -3,7 +3,6 @@ import 'package:brashapp/api/repositories/BrashRepository.dart';
 import 'package:brashapp/bloc/street_picker_bloc/street_picker_event.dart';
 import 'package:brashapp/bloc/street_picker_bloc/street_picker_state.dart';
 import 'package:brashapp/models/StreetPickerModel.dart';
-import 'package:meta/meta.dart';
 
 class StreetPickerBloc extends Bloc<StreetPickerEvent, StreetPickerState> {
 
