@@ -1,20 +1,75 @@
+import 'package:bloc_test/bloc_test.dart';
+import 'package:brashapp/api/client/BrashApiClient.dart';
+import 'package:brashapp/api/repositories/BrashRepository.dart';
 import 'package:brashapp/bloc/address_information_bloc/AddressInformationBloc.dart';
+import 'package:brashapp/bloc/address_information_bloc/AddressInformationEvent.dart';
 import 'package:brashapp/bloc/address_information_bloc/AddressInformationState.dart';
+import 'package:brashapp/models/AddressInformation.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
 
-  AddressInformationBloc bloc;
+  AddressInformationBloc addrInfoBloc;
 
-  group("AddressInformationBloc", () {
+  group('AddressInformationBloc', () {
     
     setUp(() {
-      bloc = AddressInformationBloc();
+      addrInfoBloc = AddressInformationBloc(
+        BrashRepository(
+          apiClient: BrashApiClient(
+            httpClient: http.Client()
+          )
+        )
+      );
     });
 
     test('Initial state is Loading', () {
-      expect(bloc.initialState is Loading, true);
+      expect(addrInfoBloc.initialState is Loading, true);
     });
+
+    blocTest<AddressInformationBloc, AddressInformationEvent, AddressInformationState>('Test Fetch Event',
+      build: () => addrInfoBloc,
+      act: (AddressInformationBloc bloc) async => bloc.add(Fetch(url: 'http://213.168.213.236/bremereb/bify/bify.jsp?strasse=Emanuelstra%25DFe%26hausnummer=15')),
+      expect: <dynamic>[
+        isA<Loading>(),
+        isA<Loading>(),
+        isA<Loaded>()
+      ]
+    );
+
+    blocTest<AddressInformationBloc, AddressInformationEvent, AddressInformationState>(
+      'Fetch a non existing URL',
+      build: () => addrInfoBloc,
+      act: (AddressInformationBloc bloc) async => bloc.add(Fetch(url: '')),
+      expect: <dynamic>[
+        isA<Loading>(),
+        isA<Loading>(),
+        isA<Error>()
+      ]
+    );
+
+    blocTest<AddressInformationBloc, AddressInformationEvent, AddressInformationState>(
+      'Fetch a URL with wrong parsed ß',
+      build: () => addrInfoBloc,
+      act: (AddressInformationBloc bloc) async => bloc.add(Fetch(url: 'http://213.168.213.236/bremereb/bify/bify.jsp?strasse=Emanuelstra%DFe%26hausnummer=15')),
+      expect: <dynamic>[
+        isA<Loading>(),
+        isA<Loading>(),
+        isA<Error>()
+      ]
+    );
+
+    blocTest<AddressInformationBloc, AddressInformationEvent, AddressInformationState>(
+      'Fetch a URL where an parameter in URL is missing',
+      build: () => addrInfoBloc,
+      act: (AddressInformationBloc bloc) async => bloc.add(Fetch(url: 'http://213.168.213.236/bremereb/bify/bify.jsp?hausnummer=15')),
+      expect: <dynamic>[
+        isA<Loading>(),
+        isA<Loading>(),
+        isA<Error>()
+      ]
+    );
 
   });
 
