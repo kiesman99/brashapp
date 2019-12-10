@@ -1,5 +1,5 @@
+import 'package:brashapp/models/AddressInformation.dart';
 import 'package:brashapp/models/ApiResponse.dart';
-import 'package:brashapp/models/TrashEntriesModel.dart';
 import 'package:brashapp/pages/HomePage.dart';
 import 'package:brashapp/service/TrashSpiderService.dart';
 import 'package:brashapp/widgets/ApiHandlerWidget.dart';
@@ -36,7 +36,7 @@ class _FinalSelectionPageState extends State<FinalSelectionPage> {
       body: ApiHandlerWidget(
         future: trashInformation,
         childBuilder: (response) {
-          return OverviewWidget(model: response as TrashEntriesModel);
+          return OverviewWidget(model: response as AddressInformation);
         },
       ),
       floatingActionButton: FloatingActionButton.extended(

@@ -1,13 +1,13 @@
-import 'package:brashapp/models/TrashEntriesModel.dart';
+import 'package:brashapp/models/AddressInformation.dart';
 import 'package:brashapp/service/AbstractSpiderService.dart';
 
-class TrashSpiderService extends AbstractSpiderService<TrashEntriesModel>{
+class TrashSpiderService extends AbstractSpiderService<AddressInformation>{
 
   final String spiderName = "trashEntries";
 
   @override
-  TrashEntriesModel parseJson(Map<String, dynamic> json) {
-    return TrashEntriesModel.fromJson(json);
+  AddressInformation parseJson(Map<String, dynamic> json) {
+    return AddressInformation.fromJson(json);
   }
 
 

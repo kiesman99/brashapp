@@ -3,7 +3,7 @@ import 'package:brashapp/models/TrashEntryModel.dart';
 
 /// This is the model that is holding all information about
 /// a street + housnumber in a list of [TrashEntry]
-class TrashEntriesModel extends ApiResponse{
+class AddressInformation extends ApiResponse{
 
   /// This is the street that the information is about
   String currentStreet;
@@ -23,13 +23,13 @@ class TrashEntriesModel extends ApiResponse{
   /// as relevant
   List<TrashEntry> get relevantTrashEntries => allTrashEntries.where((el) => DateTime.now().compareTo(DateTime.parse(el.date)) < 0).toList();
 
-  TrashEntriesModel({this.currentStreet, this.pickUpDay, this.allTrashEntries, this.nextDateIndex});
+  AddressInformation({this.currentStreet, this.pickUpDay, this.allTrashEntries, this.nextDateIndex});
 
-  factory TrashEntriesModel.fromJson(Map<String, dynamic> json){
+  factory AddressInformation.fromJson(Map<String, dynamic> json){
     List<TrashEntry> entries = List();
     json["data"]["data"].forEach((el) => entries.add(TrashEntry.fromJson(el)));
 
-    return TrashEntriesModel(
+    return AddressInformation(
       currentStreet: json["currentStreet"] ?? "",
       pickUpDay: json["data"]["abholtag"] ?? "",
       allTrashEntries: entries,

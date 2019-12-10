@@ -1,6 +1,6 @@
+import 'package:brashapp/models/AddressInformation.dart';
 import 'package:brashapp/models/ApiResponse.dart';
 import 'package:brashapp/models/ErrorModel.dart';
-import 'package:brashapp/models/TrashEntriesModel.dart';
 import 'package:brashapp/provider/TrashEntriesProvider.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 
 class OverviewWidget extends StatefulWidget {
   final searchQuery;
-  final TrashEntriesModel model;
+  final AddressInformation model;
 
   OverviewWidget({this.searchQuery = "", this.model});
 
@@ -44,8 +44,8 @@ class _OverviewWidgetState extends State<OverviewWidget> {
                 child: Text("Ein Fehler ist aufgetreten"),
               )
             );
-          } else if(provider.response is TrashEntriesModel){
-            TrashEntriesModel model = provider.response;
+          } else if(provider.response is AddressInformation){
+            AddressInformation model = provider.response;
             return _MainElement(model, scrollController);
           }
 
@@ -64,7 +64,7 @@ class _OverviewWidgetState extends State<OverviewWidget> {
 
 class _MainElement extends StatelessWidget {
 
-  final TrashEntriesModel model;
+  final AddressInformation model;
   final ScrollController scrollController;
 
   _MainElement(this.model, this.scrollController);
