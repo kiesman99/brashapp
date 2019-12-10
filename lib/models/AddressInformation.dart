@@ -5,6 +5,15 @@ import 'package:brashapp/models/TrashEntryModel.dart';
 /// a street + housnumber in a list of [TrashEntry]
 class AddressInformation extends ApiResponse{
 
+  AddressInformation({this.currentStreet, this.pickUpDay, this.allTrashEntries, this.nextDateIndex});
+
+  AddressInformation.empty(){
+    currentStreet = '';
+    allTrashEntries = null;
+    nextDateIndex = null;
+    pickUpDay = '';
+  }
+  
   /// This is the street that the information is about
   String currentStreet;
 
@@ -23,7 +32,6 @@ class AddressInformation extends ApiResponse{
   /// as relevant
   List<TrashEntry> get relevantTrashEntries => allTrashEntries.where((el) => DateTime.now().compareTo(DateTime.parse(el.date)) < 0).toList();
 
-  AddressInformation({this.currentStreet, this.pickUpDay, this.allTrashEntries, this.nextDateIndex});
 
   factory AddressInformation.fromJson(Map<String, dynamic> json){
     List<TrashEntry> entries = List();
